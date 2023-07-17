@@ -1,0 +1,12 @@
+main: net.mpoisv.ban.Main
+version: 1.0-SNAPSHOT
+name: UUID-BAN
+author: skyneton
+
+api-version: 1.13
+
+commands:
+  uuid:
+    description: UUID Ban Command
+    permission: server.uuid.ban.*
+    usage: /<command>
