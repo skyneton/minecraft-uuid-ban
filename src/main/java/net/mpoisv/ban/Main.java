@@ -117,12 +117,12 @@ public class Main extends JavaPlugin {
                 var pardonText = Main.getCalendarString(pardonTime);
                 var periodText = Main.getCalendarString(now, pardonTime);
                 skull.setLore(Arrays.asList("", "§cReason: §f" + data.getReason(),
-                        "§c해제 일: §f§n" + pardonText,
-                        "§c남은 일자: §f§n" + periodText,
+                        "§cUntil: §f§n" + pardonText,
+                        "§cRemain Days: §f§n" + periodText,
                         "§fUUID: §7" + data.getUuid()));
             }else
                 skull.setLore(Arrays.asList("", "§cReason: §f" + data.getReason(),
-                        "§c해제 일: §f§n영구정지",
+                        "§cUntil: §f§nInfinity",
                         "§fUUID: §7" + data.getUuid()));
             head.setItemMeta(skull);
             inv.addItem(head);

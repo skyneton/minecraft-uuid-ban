@@ -4,7 +4,6 @@ import net.mpoisv.ban.DatabaseManager;
 import net.mpoisv.ban.Main;
 import net.mpoisv.ban.utils.UUIDConverter;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -36,17 +35,23 @@ public class Uuid implements CommandExecutor, TabCompleter {
             return true;
         }
         UUID uuid;
-        try {
-            uuid = UUIDConverter.getUUID(args[1]);
-        }catch (Exception e) {
-            sender.sendMessage("§bː§f UUID §bː §rMojang API Server Error. UUID를 가져올 수 없습니다. " + e.getLocalizedMessage() + " : " + e.getCause());
-            return true;
+        OfflinePlayer target;
+        if(Bukkit.getPlayer(args[1]) != null) {
+            target = Bukkit.getPlayer(args[1]);
+            uuid = Objects.requireNonNull(target).getUniqueId();
+        }else {
+            try {
+                uuid = UUIDConverter.getUUID(args[1]);
+            } catch (Exception e) {
+                sender.sendMessage("§bː§f UUID §bː §rMojang API Server Error. UUID를 가져올 수 없습니다. " + e.getLocalizedMessage() + " : " + e.getCause());
+                return true;
+            }
+            if (uuid == null) {
+                sender.sendMessage("§bː§f UUID §bː §r서버로부터 UUID를 가져올 수 없습니다.");
+                return true;
+            }
+            target = Bukkit.getOfflinePlayer(uuid);
         }
-        if(uuid == null) {
-            sender.sendMessage("§bː§f UUID §bː §r서버로부터 UUID를 가져올 수 없습니다.");
-            return true;
-        }
-        var target = Bukkit.getOfflinePlayer(uuid);
         return switch (args[0].toLowerCase()) {
             case "ban" -> ban(sender, args, uuid.toString(), target);
             case "tban" -> timeBan(sender, args, uuid.toString(), target);
@@ -138,18 +143,18 @@ public class Uuid implements CommandExecutor, TabCompleter {
         if(args.length >= 5 && args[3].chars().allMatch(Character::isDigit)) {
             month = Integer.parseInt(args[3]);
             reasonIndex++;
-        }
-        if(args.length >= 6 && args[4].chars().allMatch(Character::isDigit)) {
-            day = Integer.parseInt(args[4]);
-            reasonIndex++;
-        }
-        if(args.length >= 7 && args[5].chars().allMatch(Character::isDigit)) {
-            hour = Integer.parseInt(args[5]);
-            reasonIndex++;
-        }
-        if(args.length >= 8 && args[6].chars().allMatch(Character::isDigit)) {
-            minute = Integer.parseInt(args[6]);
-            reasonIndex++;
+            if(args.length >= 6 && args[4].chars().allMatch(Character::isDigit)) {
+                day = Integer.parseInt(args[4]);
+                reasonIndex++;
+                if(args.length >= 7 && args[5].chars().allMatch(Character::isDigit)) {
+                    hour = Integer.parseInt(args[5]);
+                    reasonIndex++;
+                    if(args.length >= 8 && args[6].chars().allMatch(Character::isDigit)) {
+                        minute = Integer.parseInt(args[6]);
+                        reasonIndex++;
+                    }
+                }
+            }
         }
 
         var reason = getReasonFromText(args, reasonIndex);
@@ -179,9 +184,9 @@ public class Uuid implements CommandExecutor, TabCompleter {
         for(var player : Bukkit.getOnlinePlayers()) {
             if(player.hasPermission(Objects.requireNonNull(Objects.requireNonNull(Main.instance.getCommand("uuid")).getPermission()))) {
                 player.sendMessage("§bː§f UUID §bː §f" + target.getName() + "님이 " + pardonText+" 까지 정지되었습니다.");
-                player.sendMessage(" 이유: " + reason);
+                player.sendMessage(" Reason: " + reason);
 //                player.sendMessage(" Ban ID: §e" + id);
-                player.sendMessage(" 남은 일자: "+periodText);
+                player.sendMessage(" Remain Days: "+periodText);
                 player.sendMessage("");
                 player.sendMessage(" UUID: §7" + uuid);
             }
