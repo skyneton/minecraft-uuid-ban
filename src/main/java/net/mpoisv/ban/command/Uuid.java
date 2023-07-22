@@ -30,7 +30,7 @@ public class Uuid implements CommandExecutor, TabCompleter {
             }
         }
 
-        if(args.length <= 2) {
+        if(args.length <= 2 && !args[0].equalsIgnoreCase("pardon")) {
             sender.sendMessage("§bː§f UUID §bː §r명령어를 확인해주세요.");
             return true;
         }
