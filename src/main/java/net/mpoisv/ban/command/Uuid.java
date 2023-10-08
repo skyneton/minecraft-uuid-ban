@@ -13,9 +13,17 @@ import org.bukkit.entity.Player;
 
 import java.time.Instant;
 import java.time.ZoneOffset;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class Uuid implements CommandExecutor, TabCompleter {
+    public final static String BAN_GUI_PREFIX = "§3";
+    public final static String BAN_GUI_LIST_END = "Ban List";
+    public final static String BAN_GUI_PARDON_END = "Pardon List";
+    public final static String BAN_GUI_LIST_TITLE = BAN_GUI_PREFIX + "{p} " + BAN_GUI_LIST_END;
+    public final static String BAN_GUI_PARDON_TITLE = BAN_GUI_PREFIX + "{p} " + BAN_GUI_PARDON_END;
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if(args.length == 0)
@@ -23,10 +31,15 @@ public class Uuid implements CommandExecutor, TabCompleter {
 
         switch (args[0].toLowerCase()) {
             case "list" -> {
-                return banList(sender, args);
+                return banList(sender, args, BAN_GUI_LIST_TITLE, false);
             }
             case "help" -> {
                 return helpMessage(sender, s);
+            }
+            case "pardon" -> {
+                if(sender instanceof Player && args.length == 1) {
+                    return banList(sender, args, BAN_GUI_PARDON_TITLE, true);
+                }
             }
         }
 
@@ -34,12 +47,17 @@ public class Uuid implements CommandExecutor, TabCompleter {
             sender.sendMessage("§bː§f UUID §bː §r명령어를 확인해주세요.");
             return true;
         }
-        UUID uuid;
-        OfflinePlayer target;
-        if(Bukkit.getPlayer(args[1]) != null) {
-            target = Bukkit.getPlayer(args[1]);
+        UUID uuid = null;
+        OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+        if(args[1].length() == 36 || args[1].length() == 32) {
+            try {
+                uuid = UUIDConverter.getUUIDFromUUID(args[1].replace("-", ""));
+            }catch (Exception e) { }
+        }
+        if(target != null && uuid == null && target.getUniqueId() != null) {
             uuid = Objects.requireNonNull(target).getUniqueId();
-        }else {
+        }
+        if(uuid == null) {
             try {
                 uuid = UUIDConverter.getUUID(args[1]);
             } catch (Exception e) {
@@ -50,12 +68,12 @@ public class Uuid implements CommandExecutor, TabCompleter {
                 sender.sendMessage("§bː§f UUID §bː §r서버로부터 UUID를 가져올 수 없습니다.");
                 return true;
             }
-            target = Bukkit.getOfflinePlayer(uuid);
         }
+        target = Bukkit.getOfflinePlayer(uuid);
         return switch (args[0].toLowerCase()) {
             case "ban" -> ban(sender, args, uuid.toString(), target);
             case "tban" -> timeBan(sender, args, uuid.toString(), target);
-            case "pardon" -> pardon(sender, args, uuid.toString(), target);
+            case "pardon" -> pardon(sender, uuid.toString(), target);
             default -> false;
         };
     }
@@ -79,7 +97,7 @@ public class Uuid implements CommandExecutor, TabCompleter {
         return Main.color(buf.toString());
     }
 
-    private boolean banList(CommandSender sender, String[] args) {
+    private boolean banList(CommandSender sender, String[] args, String title, boolean clickToPardon) {
         int page = 1;
         if(args.length >= 2 && args[1].chars().allMatch(Character::isDigit)) {
             page = Integer.parseInt(args[1]);
@@ -94,9 +112,14 @@ public class Uuid implements CommandExecutor, TabCompleter {
                 return true;
             }
             sender.sendMessage("§c==============================");
+            var loadFromServer = Main.instance.getConfig().getBoolean("load_username_from_server");
             for(var data : pagination.getValues()) {
                 var uuid = UUIDConverter.getUUIDFromUUID(data.getUuid());
-                sender.sendMessage(Bukkit.getOfflinePlayer(uuid).getName() + "(" + data.getUuid() + ")");
+                try {
+                    sender.sendMessage(UUIDConverter.getUsername(uuid, loadFromServer) + "(" + data.getUuid() + ")");
+                }catch(Exception e) {
+                    sender.sendMessage("유저명을 불러오는데 실패했습니다. (" + data.getUuid() + ")");
+                }
             }
             sender.sendMessage("§c==============================");
             sender.sendMessage("§e"+pagination.getCurrentPage() + "/" + pagination.getMaxPage() + "§f Page");
@@ -110,11 +133,11 @@ public class Uuid implements CommandExecutor, TabCompleter {
                     + e.getLocalizedMessage() + " : " + e.getCause());
             return true;
         }
-        ((Player) sender).openInventory(Main.getListInventory(pagination, "§3" + pagination.getCurrentPage() + " Ban List"));
+        ((Player) sender).openInventory(Main.getListInventory(pagination, title.replace("{p}", Integer.toString(pagination.getCurrentPage())), clickToPardon));
         return true;
     }
 
-    private boolean pardon(CommandSender sender, String[] args, String uuid, OfflinePlayer target) {
+    private boolean pardon(CommandSender sender, String uuid, OfflinePlayer target) {
         int result;
         try {
             result = Main.instance.databaseManager.delete(uuid);
@@ -128,7 +151,7 @@ public class Uuid implements CommandExecutor, TabCompleter {
             sender.sendMessage("§bː§f UUID §bː §r밴된 유저가 아니거나 삭제를 실패했습니다.");
             return true;
         }
-        sender.sendMessage("§bː§f UUID §bː §r" + target.getName() + "님이 언밴 되었습니다.");
+        sender.sendMessage("§bː§f UUID §bː §r" + target.getName() + "(" + uuid + ") 님이 언밴 되었습니다.");
         return true;
     }
 
@@ -248,8 +271,15 @@ public class Uuid implements CommandExecutor, TabCompleter {
             }
             case 2 -> {
                 switch (args[0].toLowerCase()) {
-                    case "tban", "ban", "pardon" -> {
+                    case "tban", "ban" -> {
                         return Bukkit.getOnlinePlayers().stream().map(Player::getName).toList();
+                    }
+                    case "pardon" -> {
+                        try {
+                            return Main.instance.databaseManager.getBanUsers();
+                        }catch (Exception e) {
+                            return List.of("<player>");
+                        }
                     }
                     case "list" -> {
                         return List.of("{page}");

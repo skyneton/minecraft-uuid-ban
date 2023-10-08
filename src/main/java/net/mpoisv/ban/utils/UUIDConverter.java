@@ -3,6 +3,7 @@ package net.mpoisv.ban.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mojang.util.UUIDTypeAdapter;
+import org.bukkit.Bukkit;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,6 +27,17 @@ public class UUIDConverter {
         var data = gson.fromJson(new BufferedReader(new InputStreamReader(connection.getInputStream())), UUIDConverter.class);
 
         return data.id;
+    }
+
+    public static String getUsername(UUID uuid, boolean loadFromServer) throws IOException {
+        var offlinePlayer = Bukkit.getOfflinePlayer(uuid);
+        if(offlinePlayer.getName() != null || !loadFromServer) return offlinePlayer.getName();
+        var connection = (HttpURLConnection) new URL(NAME_URL + uuid).openConnection();
+        connection.setReadTimeout(5000);
+        connection.setUseCaches(false);
+        var data = gson.fromJson(new BufferedReader(new InputStreamReader(connection.getInputStream())), UUIDConverter.class);
+
+        return data.name;
     }
 
     public static UUID getUUIDFromUUID(String uuid) {

@@ -2,9 +2,9 @@ package net.mpoisv.ban;
 
 import net.mpoisv.ban.command.Uuid;
 import net.mpoisv.ban.utils.UUIDConverter;
+import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
@@ -15,8 +15,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.SQLException;
 import java.time.*;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class Main extends JavaPlugin {
     public static Main instance;
@@ -26,7 +27,8 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        getDataFolder().mkdirs();
+        saveDefaultConfig();
+        saveConfig();
 
         threadManager = new ThreadManager();
         try {
@@ -100,10 +102,11 @@ public class Main extends JavaPlugin {
                 + duration.toMinutesPart() + "§aM§f";
     }
 
-    public static Inventory getListInventory(DatabaseManager.Pagination pagination, String title) {
+    public static Inventory getListInventory(DatabaseManager.Pagination pagination, String title, boolean clickToPardon) {
         var inv = Bukkit.createInventory(null, 54, title);
         var currentMillis = System.currentTimeMillis();
         var now = Instant.ofEpochMilli(currentMillis).atZone(ZoneOffset.UTC).toLocalDateTime();
+        var loadFromServer = instance.getConfig().getBoolean("load_username_from_server");
 
         for(var data : pagination.getValues()) {
             var uuid = UUIDConverter.getUUIDFromUUID(data.getUuid());
@@ -111,19 +114,31 @@ public class Main extends JavaPlugin {
             var head = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta skull = (SkullMeta) head.getItemMeta();
             Objects.requireNonNull(skull).setOwningPlayer(player);
-            skull.setDisplayName("§a" + (player.getName() == null ? "알수없는 사용자" : player.getName()));
+            String username = player.getName();
+            if(username == null && loadFromServer) {
+                try {
+                    username = UUIDConverter.getUsername(uuid, true);
+                }catch(Exception ignored) { }
+            }
+            skull.setDisplayName("§a" + (username == null ? "알수없는 사용자" : username));
+            List<String> lore;
             if(data.getTime() > 0) {
                 var pardonTime = Instant.ofEpochMilli(data.getTime()).atZone(ZoneOffset.UTC).toLocalDateTime();
                 var pardonText = Main.getCalendarString(pardonTime);
                 var periodText = Main.getCalendarString(now, pardonTime);
-                skull.setLore(Arrays.asList("", "§cReason: §f" + data.getReason(),
+                lore = Arrays.asList("", "§cReason: §f" + data.getReason(),
                         "§cUntil: §f§n" + pardonText,
                         "§cRemain Days: §f§n" + periodText,
-                        "§fUUID: §7" + data.getUuid()));
+                        "§fUUID: §7" + data.getUuid());
             }else
-                skull.setLore(Arrays.asList("", "§cReason: §f" + data.getReason(),
+                lore = Arrays.asList("", "§cReason: §f" + data.getReason(),
                         "§cUntil: §f§nInfinity",
-                        "§fUUID: §7" + data.getUuid()));
+                        "§fUUID: §7" + data.getUuid());
+            if(clickToPardon) {
+                lore = List.of(ArrayUtils.addAll(lore.toArray(String[]::new), "", "§f클릭시 §nUNBAN§f됩니다."));
+            }
+            skull.setLore(lore);
+
             head.setItemMeta(skull);
             inv.addItem(head);
         }

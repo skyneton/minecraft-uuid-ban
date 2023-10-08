@@ -1,7 +1,5 @@
 package net.mpoisv.ban;
 
-import org.bukkit.Bukkit;
-
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -121,6 +119,17 @@ public class DatabaseManager {
                     rs.getString("uuid"),
                     rs.getLong("time"),
                     rs.getString("reason")));
+        }
+        rs.close();
+        return list;
+    }
+
+    public ArrayList<String> getBanUsers() throws SQLException {
+        var statement = connection.createStatement();
+        var rs = statement.executeQuery("select * from uuid;");
+        var list = new ArrayList<String>();
+        while(rs.next()) {
+            list.add(rs.getString("uuid"));
         }
         rs.close();
         return list;

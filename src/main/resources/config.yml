@@ -1,0 +1,2 @@
+# If server can't get username from local, load username from server.
+load_username_from_server: true
