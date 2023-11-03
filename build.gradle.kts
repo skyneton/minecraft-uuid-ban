@@ -15,7 +15,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 
     compileOnly("org.spigotmc:spigot:1.19.4-R0.1-SNAPSHOT")
-    compileOnly("org.xerial:sqlite-jdbc:3.7.2")
+    compileOnly("org.xerial:sqlite-jdbc:3.43.2.2")
 }
 
 tasks{
