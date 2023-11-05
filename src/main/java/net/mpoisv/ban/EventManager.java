@@ -17,16 +17,16 @@ public class EventManager implements Listener {
         try {
             data = Main.instance.databaseManager.select(event.getUniqueId().toString());
         } catch (Exception e) {
-            Bukkit.getConsoleSender().sendMessage("§bː§f UUID §bː §rLogin Event -> DB 작업을 실패했습니다. "
-                    + e.getLocalizedMessage() + " : " + e.getCause());
+            Bukkit.getConsoleSender().sendMessage("§bː§f UUID §bː §rLogin Event -> "
+                    + LanguageManager.DBWorkFailed.replace("%error-message", e.getLocalizedMessage()).replace("%error-cause%", e.getCause().toString()));
             return;
         }
         if (data == null) return;
         if (data.getTime() <= 0) {
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED,
                     "§bː§f UUID §bː §f BAN!" +
-                            "\n\nReason: " + data.getReason() +
-                            "\n§fUntil: §c§n영구정지§f");
+                            "\n\n"+ LanguageManager.BanReason + ": " + data.getReason() +
+                            "\n§f" + LanguageManager.BanUntil + ": §c§n" + LanguageManager.BanInfinite + "§f");
             return;
         }
         var millis = System.currentTimeMillis();
@@ -34,8 +34,8 @@ public class EventManager implements Listener {
             try {
                 Main.instance.databaseManager.delete(data.getUuid());
             } catch (Exception e) {
-                Bukkit.getConsoleSender().sendMessage("§bː§f UUID §bː §rLogin Event -> DB 작업을 실패했습니다. "
-                        + e.getLocalizedMessage() + " : " + e.getCause());
+                Bukkit.getConsoleSender().sendMessage("§bː§f UUID §bː §rLogin Event -> "
+                        + LanguageManager.DBWorkFailed.replace("%error-message", e.getLocalizedMessage()).replace("%error-cause%", e.getCause().toString()));
                 return;
             }
         }
@@ -45,9 +45,9 @@ public class EventManager implements Listener {
         var periodText = Main.getCalendarString(now, pardonTime);
         event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED,
                 "§bː§f UUID §bː §f BAN!" +
-                        "\n\nReason: " + data.getReason() +
-                        "\n§fUntil: " + pardonText +
-                        "\n§fRemaining days: " + periodText);
+                        "\n\n"+ LanguageManager.BanReason + ": " + data.getReason() +
+                        "\n§f" + LanguageManager.BanUntil + ": §n" + pardonText +
+                        "\n§f" + LanguageManager.BanRemainDays + ": §n" + periodText);
     }
 
     @EventHandler
@@ -66,8 +66,8 @@ public class EventManager implements Listener {
             try {
                 pagination = Main.instance.databaseManager.getPagination(Math.max(1, page + (event.getSlot() == 52 ? -1 : 1)), 52);
             } catch (Exception e) {
-                event.getWhoClicked().sendMessage("§bː§f UUID §bː §rDB 작업을 실패했습니다. "
-                        + e.getLocalizedMessage() + " : " + e.getCause());
+                event.getWhoClicked().sendMessage("§bː§f UUID §bː §r"
+                        + LanguageManager.DBWorkFailed.replace("%error-message", e.getLocalizedMessage()).replace("%error-cause%", e.getCause().toString()));
                 return;
             }
             if (event.getView().getTitle().endsWith(Uuid.BAN_GUI_LIST_END))
@@ -83,16 +83,17 @@ public class EventManager implements Listener {
             try {
                 result = Main.instance.databaseManager.delete(uuid);
             } catch (Exception e) {
-                event.getWhoClicked().sendMessage("§bː§f UUID §bː §rDB 작업을 실패했습니다. "
-                        + e.getLocalizedMessage() + " : " + e.getCause());
+                event.getWhoClicked().sendMessage("§bː§f UUID §bː §r"
+                        + LanguageManager.DBWorkFailed.replace("%error-message", e.getLocalizedMessage()).replace("%error-cause%", e.getCause().toString()));
                 return;
             }
 
             if (result <= 0) {
-                event.getWhoClicked().sendMessage("§bː§f UUID §bː §r밴된 유저가 아니거나 삭제를 실패했습니다.");
+                event.getWhoClicked().sendMessage("§bː§f UUID §bː §r" + LanguageManager.IsNotBanOrFailed);
                 return;
             }
-            event.getWhoClicked().sendMessage("§bː§f UUID §bː §r" + event.getCurrentItem().getItemMeta().getDisplayName().substring(2) + "(" + uuid + ") 님이 언밴 되었습니다.");
+            event.getWhoClicked().sendMessage("§bː§f UUID §bː §r" + LanguageManager.UnbannedPlayer
+                    .replace("%player%", event.getCurrentItem().getItemMeta().getDisplayName().substring(2)).replace("%uuid%", uuid));
 
             var pageInfo = event.getView().getTitle().substring(Uuid.BAN_GUI_PREFIX.length());
             pageInfo = pageInfo.split(" ")[0];
@@ -102,8 +103,8 @@ public class EventManager implements Listener {
             try {
                 pagination = Main.instance.databaseManager.getPagination(Math.max(1, page), 52);
             } catch (Exception e) {
-                event.getWhoClicked().sendMessage("§bː§f UUID §bː §rDB 작업을 실패했습니다. "
-                        + e.getLocalizedMessage() + " : " + e.getCause());
+                event.getWhoClicked().sendMessage("§bː§f UUID §bː §r"
+                        + LanguageManager.DBWorkFailed.replace("%error-message", e.getLocalizedMessage()).replace("%error-cause%", e.getCause().toString()));
                 return;
             }
 

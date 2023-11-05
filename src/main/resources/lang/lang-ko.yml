@@ -1,0 +1,28 @@
+unknown_player: "알수없는 사용자"
+
+ban_reason: '사유'
+ban_until: '기한'
+ban_remain_days: '남은 기한'
+ban_infinite: '영구정지'
+
+click_to_unban: '§f클릭시 §nUNBAN§f됩니다.'
+
+before_page: '§bBefore Page'
+next_page: '§bNext Page'
+
+check_command: '명령어를 확인해주세요.'
+mojang_api_error: 'Mojang API Server Error. UUID를 가져올 수 없습니다. %error-message% : %error-cause%'
+server_uuid_failed: '서버로부터 UUID를 가져올 수 없습니다.'
+
+command_value_info: '[item] 필수사용, {item} 사용 가능'
+
+db_work_failed: 'DB 작업을 실패했습니다. %error-message% : %error-cause%'
+
+is_not_ban_or_failed: '밴된 유저가 아니거나 삭제를 실패했습니다.'
+
+unbanned_player: '%player%(%uuid%) 님이 언밴 되었습니다.'
+
+db_player_update_failed: 'DB 에 플레이어 추가를 실패했습니다.'
+
+time_ban_info: '%player%님이 %until% 까지 정지되었습니다.'
+ban_info: '%player%님이 §c§n영구정지§f 되었습니다.'

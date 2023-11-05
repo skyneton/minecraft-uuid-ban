@@ -1,0 +1,28 @@
+unknown_player: "不明なプレーヤー"
+
+ban_reason: '理由'
+ban_until: 'まで'
+ban_remain_days: '残り日数'
+ban_infinite: '永久停止'
+
+click_to_unban: '§fクリックすると§nUNBAN§fとなります。'
+
+before_page: '§b前のページ'
+next_page: '§b次のページ'
+
+check_command: 'コマンドを確認してください。'
+mojang_api_error: "Mojang API Server Error. UUIDを取得できません。 %error-message% : %error-cause%"
+server_uuid_failed: "サーバーからUUIDを取得できません。"
+
+command_value_info: '[item] 必須使用, {item} 使用可能'
+
+db_work_failed: 'DB操作に失敗しました。 %error-message% : %error-cause%'
+
+is_not_ban_or_failed: 'BANされたユーザーでないか、削除に失敗しました。'
+
+unbanned_player: '%player%(%uuid%)さんがアンバンされました。'
+
+db_player_update_failed: 'DB にプレイヤーを追加するのに失敗しました。'
+
+time_ban_info: '%player%さんが %until% まで停止しました。'
+ban_info: '%player%さんが §c§n永久停止§fになりました。.'

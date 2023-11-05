@@ -1,0 +1,28 @@
+unknown_player: "Unknown Player"
+
+ban_reason: 'Reason'
+ban_until: 'Until'
+ban_remain_days: 'Remain days'
+ban_infinite: 'Infinite'
+
+click_to_unban: '§fIf you click, §nUNBAN§f.'
+
+before_page: '§bBefore Page'
+next_page: '§bNext Page'
+
+check_command: 'Check command.'
+mojang_api_error: "Mojang API Server Error. Can't bring uuid. %error-message% : %error-cause%"
+server_uuid_failed: "Can't bring UUID from server."
+
+command_value_info: '[item] must use, {item} can use.'
+
+db_work_failed: 'DB work failed. %error-message% : %error-cause%'
+
+is_not_ban_or_failed: 'Is not banned player or delete failed.'
+
+unbanned_player: '%player%(%uuid%) is unbanned now.'
+
+db_player_update_failed: 'Failed to add player to DB.'
+
+time_ban_info: '%player% is banned until %until%.'
+ban_info: '%player% is banned §c§nforever§f.'

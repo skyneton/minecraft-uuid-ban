@@ -1,2 +1,8 @@
 # If server can't get username from local, load username from server.
 load_username_from_server: true
+
+#default language file
+#  'lang-en.yml'
+#  'lang-ko.yml'
+#  'lang-ja.yml'
+language_file: 'lang-en.yml'

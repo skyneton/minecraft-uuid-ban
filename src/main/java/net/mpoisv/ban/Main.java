@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.time.*;
 import java.util.Arrays;
@@ -24,11 +25,13 @@ public class Main extends JavaPlugin {
     public ThreadManager threadManager;
     public DatabaseManager databaseManager;
 
+
     @Override
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
-        saveConfig();
+        LanguageManager.saveDefaultConfig(this);
+        LanguageManager.loadConfig(new File(getDataFolder(), "lang/" + getConfig().getString("language_file", "lang-en.yml")));
 
         threadManager = new ThreadManager();
         try {
@@ -120,22 +123,24 @@ public class Main extends JavaPlugin {
                     username = UUIDConverter.getUsername(uuid, true);
                 }catch(Exception ignored) { }
             }
-            skull.setDisplayName("§a" + (username == null ? "알수없는 사용자" : username));
+            skull.setDisplayName("§a" + (username == null ? LanguageManager.UnknownPlayer : username));
             List<String> lore;
             if(data.getTime() > 0) {
                 var pardonTime = Instant.ofEpochMilli(data.getTime()).atZone(ZoneOffset.UTC).toLocalDateTime();
                 var pardonText = Main.getCalendarString(pardonTime);
                 var periodText = Main.getCalendarString(now, pardonTime);
-                lore = Arrays.asList("", "§cReason: §f" + data.getReason(),
-                        "§cUntil: §f§n" + pardonText,
-                        "§cRemain Days: §f§n" + periodText,
+                lore = Arrays.asList("",
+                        "§c" + LanguageManager.BanReason + ": §f" + data.getReason(),
+                        "§c" + LanguageManager.BanUntil + ": §f§n" + pardonText,
+                        "§c" + LanguageManager.BanRemainDays + ": §f§n" + periodText,
                         "§fUUID: §7" + data.getUuid());
             }else
-                lore = Arrays.asList("", "§cReason: §f" + data.getReason(),
-                        "§cUntil: §f§nInfinity",
+                lore = Arrays.asList("",
+                        "§c" + LanguageManager.BanReason + ": §f" + data.getReason(),
+                        "§c" + LanguageManager.BanUntil + ": §f§n" + LanguageManager.BanInfinite,
                         "§fUUID: §7" + data.getUuid());
             if(clickToPardon) {
-                lore = List.of(ArrayUtils.addAll(lore.toArray(String[]::new), "", "§f클릭시 §nUNBAN§f됩니다."));
+                lore = List.of(ArrayUtils.addAll(lore.toArray(String[]::new), "", LanguageManager.ClickToUnBan));
             }
             skull.setLore(lore);
 
@@ -146,14 +151,14 @@ public class Main extends JavaPlugin {
         var lore = List.of("§ePage: " + pagination.getCurrentPage() + "/" + pagination.getMaxPage());
         var item = new ItemStack(Material.PAPER);
         var meta = item.getItemMeta();
-        Objects.requireNonNull(meta).setDisplayName("§bBefore Page");
+        Objects.requireNonNull(meta).setDisplayName(LanguageManager.BeforePage);
         meta.setLore(lore);
         item.setItemMeta(meta);
         inv.setItem(52, item);
 
         item = new ItemStack(Material.PAPER);
         meta = item.getItemMeta();
-        Objects.requireNonNull(meta).setDisplayName("§bNext Page");
+        Objects.requireNonNull(meta).setDisplayName(LanguageManager.NextPage);
         meta.setLore(lore);
         item.setItemMeta(meta);
         inv.setItem(53, item);

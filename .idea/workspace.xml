@@ -4,9 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7bd4afd8-1d3e-4a9d-b048-619218cfd597" name="변경" comment="get username from server &amp; pardon gui">
+    <list default="true" id="7bd4afd8-1d3e-4a9d-b048-619218cfd597" name="변경" comment="language">
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/LanguageManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/lang/lang-en.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/lang/lang-ja.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/lang/lang-ko.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/EventManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/ThreadManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/ThreadManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/command/Uuid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/command/Uuid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,23 +73,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "모듈",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.3229885",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;모듈&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.3229885&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\IntelliJ Projects\UUID-BAN\src\main\resources\lang" />
+    </key>
+  </component>
   <component name="RunManager" selected="Gradle.UUID-BAN [build]">
     <configuration name="UUID-BAN [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -195,7 +208,12 @@
       <workItem from="1695903059467" duration="15000" />
       <workItem from="1696759487570" duration="5823000" />
       <workItem from="1697796115055" duration="7000" />
-      <workItem from="1699006552911" duration="780000" />
+      <workItem from="1699006552911" duration="5605000" />
+      <workItem from="1699024058575" duration="631000" />
+      <workItem from="1699095041067" duration="2136000" />
+      <workItem from="1699152061957" duration="1153000" />
+      <workItem from="1699162875459" duration="14000" />
+      <workItem from="1699163965532" duration="6515000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1689918681059</created>
@@ -218,7 +236,14 @@
       <option name="project" value="LOCAL" />
       <updated>1696764714643</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="sqlite update">
+      <created>1699007355636</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1699007355636</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -227,6 +252,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update" />
     <MESSAGE value="get username from server &amp; pardon gui" />
-    <option name="LAST_COMMIT_MESSAGE" value="get username from server &amp; pardon gui" />
+    <MESSAGE value="sqlite update" />
+    <MESSAGE value="language" />
+    <option name="LAST_COMMIT_MESSAGE" value="language" />
   </component>
 </project>

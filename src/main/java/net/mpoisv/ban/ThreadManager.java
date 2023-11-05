@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 
 public class ThreadManager {
     private boolean isRunnable = true;
-    private ExecutorService es = Executors.newSingleThreadExecutor();
+    private final ExecutorService es = Executors.newSingleThreadExecutor();
     public void startWorker() {
         es.submit(new Worker(60, 10000));
     }
@@ -26,11 +26,11 @@ public class ThreadManager {
 
     private class Worker implements Runnable {
         private long workTimer;
-        private long logTime;
-        private long currentLogTimer;
+//        private long logTime;
+//        private long currentLogTimer;
         public Worker(long logTime, long workTimer) {
-            this.logTime = logTime;
-            this.currentLogTimer = logTime;
+//            this.logTime = logTime;
+//            this.currentLogTimer = logTime;
             this.workTimer = workTimer;
         }
 
@@ -48,21 +48,20 @@ public class ThreadManager {
                     try {
                         Main.instance.databaseManager.clean();
                     }catch (Exception e) {
-                        Bukkit.getConsoleSender().sendMessage("§bː§f UUID §bː §rDB 작업을 실패했습니다. "
-                                + e.getLocalizedMessage() + " : " + e.getCause());
+                        Bukkit.getConsoleSender().sendMessage("§bː§f UUID §bː §r" + LanguageManager.DBWorkFailed.replace("%error-message%", e.getLocalizedMessage()).replace("%error-cause%", e.getCause().toString()));
                     }
 
-                    if(++currentLogTimer >= logTime) {
-                        Bukkit.broadcastMessage("§m                                                ");
-                        Bukkit.broadcastMessage("§bː§f UUID §bː §f Server UUID Ban System");
-                        Bukkit.broadcastMessage("");
-                        Bukkit.broadcastMessage("Version: §a" + Main.instance.getDescription().getVersion());
-                        Bukkit.broadcastMessage("Made By MPoint(skyneton)");
-                        Bukkit.broadcastMessage("");
-                        Bukkit.broadcastMessage("Last Update Date: 2023/07/17");
-                        Bukkit.broadcastMessage("§m                                                ");
-                        currentLogTimer = 0;
-                    }
+//                    if(++currentLogTimer >= logTime) {
+//                        Bukkit.broadcastMessage("§m                                                ");
+//                        Bukkit.broadcastMessage("§bː§f UUID §bː §f Server UUID Ban System");
+//                        Bukkit.broadcastMessage("");
+//                        Bukkit.broadcastMessage("Version: §a" + Main.instance.getDescription().getVersion());
+//                        Bukkit.broadcastMessage("Made By MPoint(skyneton)");
+//                        Bukkit.broadcastMessage("");
+//                        Bukkit.broadcastMessage("Last Update Date: 2023/07/17");
+//                        Bukkit.broadcastMessage("§m                                                ");
+//                        currentLogTimer = 0;
+//                    }
                 }
             };
             timer.schedule(task, 10000, this.workTimer);

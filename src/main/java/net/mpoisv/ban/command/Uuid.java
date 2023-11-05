@@ -1,6 +1,7 @@
 package net.mpoisv.ban.command;
 
 import net.mpoisv.ban.DatabaseManager;
+import net.mpoisv.ban.LanguageManager;
 import net.mpoisv.ban.Main;
 import net.mpoisv.ban.utils.UUIDConverter;
 import org.bukkit.Bukkit;
@@ -44,7 +45,7 @@ public class Uuid implements CommandExecutor, TabCompleter {
         }
 
         if(args.length <= 2 && !args[0].equalsIgnoreCase("pardon")) {
-            sender.sendMessage("§bː§f UUID §bː §r명령어를 확인해주세요.");
+            sender.sendMessage("§bː§f UUID §bː §r" + LanguageManager.CheckCommand);
             return true;
         }
         UUID uuid = null;
@@ -61,11 +62,12 @@ public class Uuid implements CommandExecutor, TabCompleter {
             try {
                 uuid = UUIDConverter.getUUID(args[1]);
             } catch (Exception e) {
-                sender.sendMessage("§bː§f UUID §bː §rMojang API Server Error. UUID를 가져올 수 없습니다. " + e.getLocalizedMessage() + " : " + e.getCause());
+                sender.sendMessage("§bː§f UUID §bː §r"
+                        + LanguageManager.MojangApiError.replace("%error-message%", e.getLocalizedMessage()).replace("%error-cause%", e.getCause().toString()));
                 return true;
             }
             if (uuid == null) {
-                sender.sendMessage("§bː§f UUID §bː §r서버로부터 UUID를 가져올 수 없습니다.");
+                sender.sendMessage("§bː§f UUID §bː §r" + LanguageManager.ServerUUIDFailed);
                 return true;
             }
         }
@@ -84,7 +86,7 @@ public class Uuid implements CommandExecutor, TabCompleter {
         sender.sendMessage("§bː§f UUID §bː §r/" + label + " pardon [player]");
         sender.sendMessage("§bː§f UUID §bː §r/" + label + " list {page}");
         sender.sendMessage("");
-        sender.sendMessage("§bː§f UUID §bː §r[item] = must usage, {item} can usage.");
+        sender.sendMessage("§bː§f UUID §bː §r" + LanguageManager.CommandValueInfo);
         return true;
     }
 
@@ -107,8 +109,8 @@ public class Uuid implements CommandExecutor, TabCompleter {
             try {
                 pagination = Main.instance.databaseManager.getPagination(page, 15);
             }catch (Exception e) {
-                sender.sendMessage("§bː§f UUID §bː §rDB 작업을 실패했습니다. "
-                        + e.getLocalizedMessage() + " : " + e.getCause());
+                sender.sendMessage("§bː§f UUID §bː §r"
+                        + LanguageManager.DBWorkFailed.replace("%error-message%", e.getLocalizedMessage()).replace("%error-cause%", e.getCause().toString()));
                 return true;
             }
             sender.sendMessage("§c==============================");
@@ -118,7 +120,7 @@ public class Uuid implements CommandExecutor, TabCompleter {
                 try {
                     sender.sendMessage(UUIDConverter.getUsername(uuid, loadFromServer) + "(" + data.getUuid() + ")");
                 }catch(Exception e) {
-                    sender.sendMessage("유저명을 불러오는데 실패했습니다. (" + data.getUuid() + ")");
+                    sender.sendMessage(LanguageManager.UnknownPlayer + " (" + data.getUuid() + ")");
                 }
             }
             sender.sendMessage("§c==============================");
@@ -129,8 +131,8 @@ public class Uuid implements CommandExecutor, TabCompleter {
         try {
             pagination = Main.instance.databaseManager.getPagination(page, 52);
         }catch (Exception e) {
-            sender.sendMessage("§bː§f UUID §bː §rDB 작업을 실패했습니다. "
-                    + e.getLocalizedMessage() + " : " + e.getCause());
+            sender.sendMessage("§bː§f UUID §bː §r"
+                    + LanguageManager.DBWorkFailed.replace("%error-message%", e.getLocalizedMessage()).replace("%error-cause%", e.getCause().toString()));
             return true;
         }
         ((Player) sender).openInventory(Main.getListInventory(pagination, title.replace("{p}", Integer.toString(pagination.getCurrentPage())), clickToPardon));
@@ -142,22 +144,22 @@ public class Uuid implements CommandExecutor, TabCompleter {
         try {
             result = Main.instance.databaseManager.delete(uuid);
         }catch(Exception e) {
-            sender.sendMessage("§bː§f UUID §bː §rDB 작업을 실패했습니다. "
-                    + e.getLocalizedMessage() + " : " + e.getCause());
+            sender.sendMessage("§bː§f UUID §bː §r"
+                    + LanguageManager.DBWorkFailed.replace("%error-message%", e.getLocalizedMessage()).replace("%error-cause%", e.getCause().toString()));
             return true;
         }
 
         if(result <= 0) {
-            sender.sendMessage("§bː§f UUID §bː §r밴된 유저가 아니거나 삭제를 실패했습니다.");
+            sender.sendMessage("§bː§f UUID §bː §r" + LanguageManager.IsNotBanOrFailed);
             return true;
         }
-        sender.sendMessage("§bː§f UUID §bː §r" + target.getName() + "(" + uuid + ") 님이 언밴 되었습니다.");
+        sender.sendMessage("§bː§f UUID §bː §r" + LanguageManager.UnbannedPlayer.replace("%player%", target.getName()).replace("%uuid%", uuid));
         return true;
     }
 
     private boolean timeBan(CommandSender sender, String[] args, String uuid, OfflinePlayer target) {
         if(args.length < 4 || !args[2].chars().allMatch(Character::isDigit)) {
-            sender.sendMessage("§bː§f UUID §bː §r명령어를 확인해주세요.");
+            sender.sendMessage("§bː§f UUID §bː §r" + LanguageManager.CheckCommand);
             return true;
         }
 
@@ -192,13 +194,13 @@ public class Uuid implements CommandExecutor, TabCompleter {
             else
                 result = Main.instance.databaseManager.update(uuid, pardonMillis, reason);
         }catch(Exception e) {
-            sender.sendMessage("§bː§f UUID §bː §rDB 작업을 실패했습니다. "
-                    + e.getLocalizedMessage() + " : " + e.getCause());
+            sender.sendMessage("§bː§f UUID §bː §r"
+                    + LanguageManager.DBWorkFailed.replace("%error-message%", e.getLocalizedMessage()).replace("%error-cause%", e.getCause().toString()));
             return true;
         }
 
         if(result <= 0) {
-            sender.sendMessage("§bː§f UUID §bː §rDB 에 플레이어 추가를 실패했습니다.");
+            sender.sendMessage("§bː§f UUID §bː §r" + LanguageManager.DBPlayerUpdateFailed);
             return true;
         }
 
@@ -206,25 +208,30 @@ public class Uuid implements CommandExecutor, TabCompleter {
         var periodText = Main.getCalendarString(now, pardonTime);
         for(var player : Bukkit.getOnlinePlayers()) {
             if(player.hasPermission(Objects.requireNonNull(Objects.requireNonNull(Main.instance.getCommand("uuid")).getPermission()))) {
-                player.sendMessage("§bː§f UUID §bː §f" + target.getName() + "님이 " + pardonText+" 까지 정지되었습니다.");
-                player.sendMessage(" Reason: " + reason);
+                player.sendMessage("§bː§f UUID §bː §f" + LanguageManager.TimeBanInfo.replace("%player%", target.getName()).replace("%until%", pardonText));
+                player.sendMessage(" " + LanguageManager.BanUntil + ": " + reason);
 //                player.sendMessage(" Ban ID: §e" + id);
-                player.sendMessage(" Remain Days: "+periodText);
+                player.sendMessage(" " + LanguageManager.BanRemainDays + ": " + periodText);
                 player.sendMessage("");
                 player.sendMessage(" UUID: §7" + uuid);
             }
         }
+        Bukkit.getConsoleSender().sendMessage("§bː§f UUID §bː §f" + LanguageManager.TimeBanInfo.replace("%player%", target.getName()).replace("%until%", pardonText));
+        Bukkit.getConsoleSender().sendMessage(" " + LanguageManager.BanUntil + ": " + reason);
+        Bukkit.getConsoleSender().sendMessage(" " + LanguageManager.BanRemainDays + ": " + periodText);
+        Bukkit.getConsoleSender().sendMessage("");
+        Bukkit.getConsoleSender().sendMessage(" UUID: §7" + uuid);
 
         if(target.isOnline()) Objects.requireNonNull(target.getPlayer()).kickPlayer("§bː§f UUID §bː §f BAN!"
-                + "\n\nReason: " + reason
-                + "\n§fUntil: " + pardonText +
-                "\n§fRemaining days: " + periodText);
+                + "\n\n" + LanguageManager.BanReason + ": " + reason
+                + "\n§f" + LanguageManager.BanUntil + ": " + pardonText
+                + "\n§f" + LanguageManager.BanRemainDays + " : " + periodText);
         return true;
     }
 
     private boolean ban(CommandSender sender, String[] args, String uuid, OfflinePlayer target) {
         if(args.length < 3) {
-            sender.sendMessage("§bː§f UUID §bː §r명령어를 확인해주세요.");
+            sender.sendMessage("§bː§f UUID §bː §r" + LanguageManager.CheckCommand);
             return true;
         }
 
@@ -236,29 +243,33 @@ public class Uuid implements CommandExecutor, TabCompleter {
             else
                 result = Main.instance.databaseManager.update(uuid, reason);
         }catch(Exception e) {
-            sender.sendMessage("§bː§f UUID §bː §rDB 작업을 실패했습니다. "
-                    + e.getLocalizedMessage() + " : " + e.getCause());
+            sender.sendMessage("§bː§f UUID §bː §r"
+                    + LanguageManager.DBWorkFailed.replace("%error-message%", e.getLocalizedMessage()).replace("%error-cause%", e.getCause().toString()));
             return true;
         }
 
         if(result <= 0) {
-            sender.sendMessage("§bː§f UUID §bː §rDB 에 플레이어 추가를 실패했습니다.");
+            sender.sendMessage("§bː§f UUID §bː §r" + LanguageManager.DBPlayerUpdateFailed);
             return true;
         }
 
         for(var player : Bukkit.getOnlinePlayers()) {
             if(player.hasPermission(Objects.requireNonNull(Objects.requireNonNull(Main.instance.getCommand("uuid")).getPermission()))) {
-                player.sendMessage("§bː§f UUID §bː §r" + target.getName() + "님이 §c§n영구정지§f 되었습니다.");
-                player.sendMessage(" Reason: " + reason);
+                player.sendMessage("§bː§f UUID §bː §r" + LanguageManager.BanInfo.replace("%player%", target.getName()));
+                player.sendMessage(" "+ LanguageManager.BanReason + ": " + reason);
 //                player.sendMessage(" Ban ID: §e" + id);
                 player.sendMessage("");
                 player.sendMessage(" UUID: §7" + uuid);
             }
         }
+        Bukkit.getConsoleSender().sendMessage("§bː§f UUID §bː §r" + LanguageManager.BanInfo.replace("%player%", target.getName()));
+        Bukkit.getConsoleSender().sendMessage(" "+ LanguageManager.BanReason + ": " + reason);
+        Bukkit.getConsoleSender().sendMessage("");
+        Bukkit.getConsoleSender().sendMessage(" UUID: §7" + uuid);
 
         if(target.isOnline()) Objects.requireNonNull(target.getPlayer()).kickPlayer("§bː§f UUID §bː §f BAN!"
-                + "\n\nReason: " + reason
-                + "\n§fUntil: §c§n영구정지§f");
+                + "\n\n" + LanguageManager.BanReason + ": " + reason
+                + "\n§f" + LanguageManager.BanUntil + ": §c§n" + LanguageManager.BanInfinite + "§f");
 //                + "\n\nBan ID: §7" + id);
         return true;
     }
