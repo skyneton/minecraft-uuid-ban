@@ -5,16 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7bd4afd8-1d3e-4a9d-b048-619218cfd597" name="변경" comment="language">
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/LanguageManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/lang/lang-en.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/lang/lang-ja.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/lang/lang-ko.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/EventManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/ThreadManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/ThreadManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/command/Uuid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/command/Uuid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/utils/UUIDConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/utils/UUIDConverter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +87,7 @@
       <recent name="D:\IntelliJ Projects\UUID-BAN\src\main\resources\lang" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.UUID-BAN [build]">
+  <component name="RunManager" selected="Gradle.UUID-BAN [jar]">
     <configuration name="UUID-BAN [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -186,9 +178,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.UUID-BAN [build]" />
-        <item itemvalue="Gradle.UUID-BAN [clean]" />
         <item itemvalue="Gradle.UUID-BAN [jar]" />
+        <item itemvalue="Gradle.UUID-BAN [clean]" />
+        <item itemvalue="Gradle.UUID-BAN [build]" />
         <item itemvalue="Gradle.UUID-BAN [testClasses]" />
       </list>
     </recent_temporary>
@@ -213,7 +205,11 @@
       <workItem from="1699095041067" duration="2136000" />
       <workItem from="1699152061957" duration="1153000" />
       <workItem from="1699162875459" duration="14000" />
-      <workItem from="1699163965532" duration="6515000" />
+      <workItem from="1699163965532" duration="7399000" />
+      <workItem from="1699332556701" duration="43000" />
+      <workItem from="1699332904603" duration="571000" />
+      <workItem from="1699334436834" duration="563000" />
+      <workItem from="1702862627076" duration="100000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1689918681059</created>
@@ -243,7 +239,14 @@
       <option name="project" value="LOCAL" />
       <updated>1699007355636</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="language">
+      <created>1699171448756</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1699171448756</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
