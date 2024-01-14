@@ -116,8 +116,11 @@ public class Main extends JavaPlugin {
             var player = Bukkit.getOfflinePlayer(uuid);
             var head = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta skull = (SkullMeta) head.getItemMeta();
-            Objects.requireNonNull(skull).setOwningPlayer(player);
-            String username = player.getName();
+            String username = player.getPlayerProfile().getName();
+
+            if(username != null)
+                Objects.requireNonNull(skull).setOwningPlayer(player);
+
             if(username == null && loadFromServer) {
                 try {
                     username = UUIDConverter.getUsername(uuid, true);

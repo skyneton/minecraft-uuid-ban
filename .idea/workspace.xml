@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7bd4afd8-1d3e-4a9d-b048-619218cfd597" name="변경" comment="language">
+    <list default="true" id="7bd4afd8-1d3e-4a9d-b048-619218cfd597" name="변경" comment="UUIDTypeAdapter fromString convert.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/utils/UUIDConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/utils/UUIDConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -209,7 +211,10 @@
       <workItem from="1699332556701" duration="43000" />
       <workItem from="1699332904603" duration="571000" />
       <workItem from="1699334436834" duration="563000" />
-      <workItem from="1702862627076" duration="100000" />
+      <workItem from="1702862627076" duration="189000" />
+      <workItem from="1705075121215" duration="689000" />
+      <workItem from="1705211110365" duration="21000" />
+      <workItem from="1705212299467" duration="203000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1689918681059</created>
@@ -246,7 +251,14 @@
       <option name="project" value="LOCAL" />
       <updated>1699171448756</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="UUIDTypeAdapter fromString convert.">
+      <created>1702862808322</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1702862808322</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -257,6 +269,7 @@
     <MESSAGE value="get username from server &amp; pardon gui" />
     <MESSAGE value="sqlite update" />
     <MESSAGE value="language" />
-    <option name="LAST_COMMIT_MESSAGE" value="language" />
+    <MESSAGE value="UUIDTypeAdapter fromString convert." />
+    <option name="LAST_COMMIT_MESSAGE" value="UUIDTypeAdapter fromString convert." />
   </component>
 </project>
