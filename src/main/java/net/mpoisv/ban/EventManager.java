@@ -74,6 +74,7 @@ public class EventManager implements Listener {
                 event.getWhoClicked().openInventory(Main.getListInventory(pagination, Uuid.BAN_GUI_LIST_TITLE.replace("{p}", Integer.toString(pagination.getCurrentPage())), false));
             else
                 event.getWhoClicked().openInventory(Main.getListInventory(pagination, Uuid.BAN_GUI_PARDON_TITLE.replace("{p}", Integer.toString(pagination.getCurrentPage())), true));
+
         } else if (event.getView().getTitle().endsWith(Uuid.BAN_GUI_PARDON_END)) {
             var lore = event.getCurrentItem().getItemMeta().getLore();
             if (lore.size() < 3 || !lore.get(lore.size() - 3).startsWith("§fUUID: §7")) return;

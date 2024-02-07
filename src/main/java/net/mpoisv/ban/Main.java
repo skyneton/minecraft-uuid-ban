@@ -6,8 +6,10 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -19,6 +21,7 @@ import java.time.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executors;
 
 public class Main extends JavaPlugin {
     public static Main instance;
@@ -105,51 +108,86 @@ public class Main extends JavaPlugin {
                 + duration.toMinutesPart() + "§aM§f";
     }
 
+//    public static void openListInventoryThread(Player player, DatabaseManager.Pagination pagination, String title, boolean clickToPardon) {
+//        var executor = Executors.newSingleThreadExecutor();
+//        executor.execute(() -> { if(player.isOnline() && !player.isDead()) player.openInventory(getListInventory(pagination, title, clickToPardon)) });
+//        executor.shutdown();
+//    }
+
+    private static void getListInventoryApplyItemThread(Inventory inventory, DatabaseManager.Pagination pagination, boolean clickToPardon, boolean loadFromServer, LocalDateTime now) {
+        var executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            for(var data : pagination.getValues()) {
+                var uuid = UUIDConverter.getUUIDFromUUID(data.getUuid());
+                var player = Bukkit.getOfflinePlayer(uuid);
+                var head = new ItemStack(Material.PLAYER_HEAD);
+                SkullMeta skull = (SkullMeta) head.getItemMeta();
+                String username = player.getName();
+
+                if(username != null)
+                    Objects.requireNonNull(skull).setOwnerProfile(player.getPlayerProfile());
+
+                if(username == null && loadFromServer) {
+                    try {
+                        username = UUIDConverter.getUsername(uuid, true);
+                    }catch(Exception ignored) { }
+                }
+                Objects.requireNonNull(skull).setDisplayName("§a" + (username == null ? LanguageManager.UnknownPlayer : username));
+                List<String> lore;
+                if(data.getTime() > 0) {
+                    var pardonTime = Instant.ofEpochMilli(data.getTime()).atZone(ZoneOffset.UTC).toLocalDateTime();
+                    var pardonText = Main.getCalendarString(pardonTime);
+                    var periodText = Main.getCalendarString(now, pardonTime);
+                    lore = Arrays.asList("",
+                            "§c" + LanguageManager.BanReason + ": §f" + data.getReason(),
+                            "§c" + LanguageManager.BanUntil + ": §f§n" + pardonText,
+                            "§c" + LanguageManager.BanRemainDays + ": §f§n" + periodText,
+                            "§fUUID: §7" + data.getUuid());
+                }else
+                    lore = Arrays.asList("",
+                            "§c" + LanguageManager.BanReason + ": §f" + data.getReason(),
+                            "§c" + LanguageManager.BanUntil + ": §f§n" + LanguageManager.BanInfinite,
+                            "§fUUID: §7" + data.getUuid());
+                if(clickToPardon) {
+                    lore = List.of(ArrayUtils.addAll(lore.toArray(String[]::new), "", LanguageManager.ClickToUnBan));
+                }
+                skull.setLore(lore);
+
+                head.setItemMeta(skull);
+                inventory.addItem(head);
+            }
+        });
+        executor.shutdown();
+    }
+
+    public static void printBanListThread(CommandSender sender, DatabaseManager.Pagination pagination) {
+        var loadFromServer = instance.getConfig().getBoolean("load_username_from_server");
+
+        var executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            sender.sendMessage("§c==============================");
+            for(var data : pagination.getValues()) {
+                var uuid = UUIDConverter.getUUIDFromUUID(data.getUuid());
+                try {
+                    sender.sendMessage(UUIDConverter.getUsername(uuid, loadFromServer) + "(" + data.getUuid() + ")");
+                }catch(Exception e) {
+                    sender.sendMessage(LanguageManager.UnknownPlayer + " (" + data.getUuid() + ")");
+                }
+            }
+            sender.sendMessage("§c==============================");
+            sender.sendMessage("§e"+pagination.getCurrentPage() + "/" + pagination.getMaxPage() + "§f Page");
+        });
+
+        executor.shutdown();
+    }
+
     public static Inventory getListInventory(DatabaseManager.Pagination pagination, String title, boolean clickToPardon) {
         var inv = Bukkit.createInventory(null, 54, title);
         var currentMillis = System.currentTimeMillis();
         var now = Instant.ofEpochMilli(currentMillis).atZone(ZoneOffset.UTC).toLocalDateTime();
         var loadFromServer = instance.getConfig().getBoolean("load_username_from_server");
 
-        for(var data : pagination.getValues()) {
-            var uuid = UUIDConverter.getUUIDFromUUID(data.getUuid());
-            var player = Bukkit.getOfflinePlayer(uuid);
-            var head = new ItemStack(Material.PLAYER_HEAD);
-            SkullMeta skull = (SkullMeta) head.getItemMeta();
-            String username = player.getName();
-
-            if(username != null)
-                Objects.requireNonNull(skull).setOwnerProfile(player.getPlayerProfile());
-
-            if(username == null && loadFromServer) {
-                try {
-                    username = UUIDConverter.getUsername(uuid, true);
-                }catch(Exception ignored) { }
-            }
-            skull.setDisplayName("§a" + (username == null ? LanguageManager.UnknownPlayer : username));
-            List<String> lore;
-            if(data.getTime() > 0) {
-                var pardonTime = Instant.ofEpochMilli(data.getTime()).atZone(ZoneOffset.UTC).toLocalDateTime();
-                var pardonText = Main.getCalendarString(pardonTime);
-                var periodText = Main.getCalendarString(now, pardonTime);
-                lore = Arrays.asList("",
-                        "§c" + LanguageManager.BanReason + ": §f" + data.getReason(),
-                        "§c" + LanguageManager.BanUntil + ": §f§n" + pardonText,
-                        "§c" + LanguageManager.BanRemainDays + ": §f§n" + periodText,
-                        "§fUUID: §7" + data.getUuid());
-            }else
-                lore = Arrays.asList("",
-                        "§c" + LanguageManager.BanReason + ": §f" + data.getReason(),
-                        "§c" + LanguageManager.BanUntil + ": §f§n" + LanguageManager.BanInfinite,
-                        "§fUUID: §7" + data.getUuid());
-            if(clickToPardon) {
-                lore = List.of(ArrayUtils.addAll(lore.toArray(String[]::new), "", LanguageManager.ClickToUnBan));
-            }
-            skull.setLore(lore);
-
-            head.setItemMeta(skull);
-            inv.addItem(head);
-        }
+        getListInventoryApplyItemThread(inv, pagination, clickToPardon, loadFromServer, now);
 
         var lore = List.of("§ePage: " + pagination.getCurrentPage() + "/" + pagination.getMaxPage());
         var item = new ItemStack(Material.PAPER);

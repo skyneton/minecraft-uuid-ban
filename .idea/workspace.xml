@@ -7,7 +7,10 @@
     <list default="true" id="7bd4afd8-1d3e-4a9d-b048-619218cfd597" name="변경" comment="folia support &amp; bug fix.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/EventManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/command/Uuid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/command/Uuid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/utils/UUIDConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/utils/UUIDConverter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -213,7 +216,9 @@
       <workItem from="1702862627076" duration="189000" />
       <workItem from="1705075121215" duration="689000" />
       <workItem from="1705211110365" duration="21000" />
-      <workItem from="1705212299467" duration="1461000" />
+      <workItem from="1705212299467" duration="2049000" />
+      <workItem from="1707055837014" duration="5000" />
+      <workItem from="1707286072688" duration="2329000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1689918681059</created>
@@ -264,7 +269,14 @@
       <option name="project" value="LOCAL" />
       <updated>1705212614057</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="folia support &amp; bug fix.">
+      <created>1705213804805</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1705213804805</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

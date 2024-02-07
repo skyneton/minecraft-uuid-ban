@@ -113,18 +113,8 @@ public class Uuid implements CommandExecutor, TabCompleter {
                         + LanguageManager.DBWorkFailed.replace("%error-message%", e.getLocalizedMessage()).replace("%error-cause%", e.getCause().toString()));
                 return true;
             }
-            sender.sendMessage("§c==============================");
-            var loadFromServer = Main.instance.getConfig().getBoolean("load_username_from_server");
-            for(var data : pagination.getValues()) {
-                var uuid = UUIDConverter.getUUIDFromUUID(data.getUuid());
-                try {
-                    sender.sendMessage(UUIDConverter.getUsername(uuid, loadFromServer) + "(" + data.getUuid() + ")");
-                }catch(Exception e) {
-                    sender.sendMessage(LanguageManager.UnknownPlayer + " (" + data.getUuid() + ")");
-                }
-            }
-            sender.sendMessage("§c==============================");
-            sender.sendMessage("§e"+pagination.getCurrentPage() + "/" + pagination.getMaxPage() + "§f Page");
+
+            Main.printBanListThread(sender, pagination);
             return true;
         }
 

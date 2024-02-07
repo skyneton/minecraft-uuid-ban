@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class UUIDConverter {
     private static final String UUID_URL = "https://api.mojang.com/users/profiles/minecraft/";
-    private static final String NAME_URL = "https://api.mojang.com/user/profile/";
+    private static final String NAME_URL = "https://sessionserver.mojang.com/session/minecraft/profile/";
     private static Gson gson = new GsonBuilder().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
 
     private String name;
