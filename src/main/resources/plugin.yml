@@ -1,6 +1,6 @@
-main: net.mpoisv.ban.Main
-version: 1.0-SNAPSHOT
-name: UUID-BAN
+main: ${main}.Main
+version: $version
+name: $name
 author: skyneton
 
 api-version: 1.13
