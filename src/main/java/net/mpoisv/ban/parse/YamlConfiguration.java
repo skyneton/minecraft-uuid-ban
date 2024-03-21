@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -221,8 +220,11 @@ public class YamlConfiguration {
         return builder;
     }
 
-    public static YamlConfiguration loadConfiguration(String path) throws IOException {
-        var file = new File(path);
+    public static YamlConfiguration loadConfiguration(String path) throws Exception {
+        return loadConfiguration(new File(path));
+    }
+
+    public static YamlConfiguration loadConfiguration(File file) throws Exception {
         if(file.exists()) {
             try(var fis = new FileInputStream(file)) {
                 return parse(new String(fis.readAllBytes(), StandardCharsets.UTF_8));

@@ -41,6 +41,11 @@ public class VelocityPlugin {
                 return null;
             }
         }
-        return YamlConfiguration.
+        try {
+            return YamlConfiguration.loadConfiguration(file);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7bd4afd8-1d3e-4a9d-b048-619218cfd597" name="변경" comment="minecraft api update.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/parse/YamlConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/utils/UUIDTypeAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/velocity/VelocityPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="7bd4afd8-1d3e-4a9d-b048-619218cfd597" name="변경" comment="Yaml prepare">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/utils/UUIDConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/utils/UUIDConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/parse/YamlConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/parse/YamlConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/velocity/VelocityPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/mpoisv/ban/velocity/VelocityPlugin.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -225,7 +220,7 @@
       <workItem from="1707295623362" duration="1178000" />
       <workItem from="1707301100787" duration="35000" />
       <workItem from="1710812838863" duration="5625000" />
-      <workItem from="1710901267207" duration="1576000" />
+      <workItem from="1710901267207" duration="2447000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1689918681059</created>
@@ -290,7 +285,14 @@
       <option name="project" value="LOCAL" />
       <updated>1707288553068</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Yaml prepare">
+      <created>1710903967254</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1710903967254</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -304,6 +306,7 @@
     <MESSAGE value="UUIDTypeAdapter fromString convert." />
     <MESSAGE value="folia support &amp; bug fix." />
     <MESSAGE value="minecraft api update." />
-    <option name="LAST_COMMIT_MESSAGE" value="minecraft api update." />
+    <MESSAGE value="Yaml prepare" />
+    <option name="LAST_COMMIT_MESSAGE" value="Yaml prepare" />
   </component>
 </project>
